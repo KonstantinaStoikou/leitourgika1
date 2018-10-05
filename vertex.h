@@ -5,7 +5,10 @@
 
 typedef struct Vertex {
     char *name;
-    // list of edges
+    Vertex *next; //i struct node* next
+    //kai mia metavliti gia na sindeei me tin lista ton edges
 } Vertex;
+
+void add_vertex(char *name);
 
 #endif

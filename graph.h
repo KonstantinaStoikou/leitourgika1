@@ -3,10 +3,10 @@
 
 #include "vertex.h"
 
-typedef struct Node {
-    Vertex vertex;
-    //koitao an thelei pointer o vertex
-    struct Node * next;
-} Node;
+struct Graph
+{
+    int numVertices;
+    Node** adjLists;
+};
 
 #endif
