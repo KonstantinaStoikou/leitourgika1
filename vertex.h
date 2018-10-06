@@ -5,10 +5,10 @@
 
 typedef struct Vertex {
     char *name;
-    Vertex *next; //i struct node* next
-    //kai mia metavliti gia na sindeei me tin lista ton edges
+    struct Vertex *next; //i struct node* next
+    struct Edge *head_edge;
 } Vertex;
 
-void add_vertex(char *name);
+void add_vertex(Vertex **head_ref, char *name);
 
 #endif

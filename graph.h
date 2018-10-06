@@ -1,12 +1,8 @@
-#ifndef VERTEX_HEADER
-#define VERTEX_HEADER
+#ifndef GRAPH_HEADER
+#define GRAPH_HEADER
 
 #include "vertex.h"
 
-struct Graph
-{
-    int numVertices;
-    Node** adjLists;
-};
+struct Vertex * create_graph(char *name);
 
 #endif
