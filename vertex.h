@@ -1,12 +1,10 @@
 #ifndef VERTEX_HEADER
 #define VERTEX_HEADER
 
-#include "edge.h"
-
 typedef struct Vertex {
     char *name;
-    struct Vertex *next; //i struct node* next
     struct Edge *head_edge;
+    struct Vertex *next;
 } Vertex;
 
 Vertex * initialize_list(char *name);

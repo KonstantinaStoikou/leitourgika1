@@ -8,7 +8,10 @@
 typedef struct Edge {
     int weight;
     struct Vertex *directed_vertex;
-    struct Vertex *start; //see if i need this
+    // struct Vertex *starting_vertex;
+    struct Edge *next;
 } Edge;
+
+void add_edge(Edge** head, Vertex * directed_vertex, int weight);
 
 #endif

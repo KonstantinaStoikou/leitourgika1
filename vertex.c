@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include "vertex.h"
+#include "edge.h"
 
-
+//mporei na min to xreiazomai
 Vertex * initialize_list(char *name) {
     Vertex *head = NULL;
     head = malloc(sizeof(Vertex));
@@ -21,8 +22,9 @@ void add_vertex(Vertex** head, char *name)
     Vertex *new_vertex = (Vertex *)malloc(sizeof(Vertex));
 
     new_vertex->name  = name;
-    new_vertex->next = (*head);
+    new_vertex->next = *head;
     new_vertex->head_edge = NULL;
+    new_vertex->head_edge = malloc(sizeof(Edge));
 
     // Change head pointer as new node is added at the beginning
     *head = new_vertex;
