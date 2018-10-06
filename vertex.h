@@ -9,6 +9,7 @@ typedef struct Vertex {
     struct Edge *head_edge;
 } Vertex;
 
+Vertex * initialize_list(char *name);
 void add_vertex(Vertex **head_ref, char *name);
 
 #endif

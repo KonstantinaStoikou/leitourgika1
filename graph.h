@@ -3,6 +3,6 @@
 
 #include "vertex.h"
 
-struct Vertex * create_graph(char *name);
+Vertex * create_graph(char *name);
 
 #endif
