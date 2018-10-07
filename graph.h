@@ -11,8 +11,8 @@ typedef struct Graph {
 
 Graph * initialize_graph(void);
 void add_vertex(Graph **graph, char *name);
-void add_edge(Graph **graph, Vertex *start, Vertex *direction, int weight);
-bool search_for_vertex(Graph *graph, char *name);
+void add_edge(Graph **graph, char *start_name, char *direction_name, int weight);
+Vertex * search_for_vertex(Graph *graph, char *name);
 void print_vertices(Graph *graph);
 
 #endif

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "vertex.h"
 #include "graph.h"
 
 int main(int argc, char const *argv[]) {
@@ -38,10 +37,6 @@ int main(int argc, char const *argv[]) {
         }
     }
 
-    //allocate memory for pointer that will point to head of vertex list
-    Vertex *head = NULL;
-    head = malloc(sizeof(Vertex));
-
     Graph *graph = initialize_graph();
 
     char *str = "hello";
@@ -54,9 +49,6 @@ int main(int argc, char const *argv[]) {
     add_vertex(&graph, str3);
 
     printf("head is: %s\n ", graph->head->name);
-    printf("%i\n", search_for_vertex(graph, "sad"));
-    printf("%i\n", search_for_vertex(graph, "dsfd"));
-    printf(" head is: %s\n", graph->head->name);
     print_vertices(graph);
 
 
