@@ -7,7 +7,4 @@ typedef struct Vertex {
     struct Vertex *next;
 } Vertex;
 
-Vertex * initialize_list(char *name);
-void add_vertex(Vertex **head_ref, char *name);
-
 #endif

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "vertex.h"
+#include "graph.h"
 
 int main(int argc, char const *argv[]) {
 
@@ -41,19 +42,22 @@ int main(int argc, char const *argv[]) {
     Vertex *head = NULL;
     head = malloc(sizeof(Vertex));
 
-    char *str = "hello";
-    add_vertex(&head, str);
-    char *str1 = "happy";
-    add_vertex(&head, str1);
-    char *str2 = "sad";
-    add_vertex(&head, str2);
+    Graph *graph = initialize_graph();
 
-    //iterate through linked list
-    Vertex *temp = head;
-    while (temp->next !=NULL){
-        printf("%s\n", temp->name);
-        temp = temp->next; // get the next element
-    }
+    char *str = "hello";
+    add_vertex(&graph, str);
+    char *str1 = "happy";
+    add_vertex(&graph, str1);
+    char *str2 = "sad";
+    add_vertex(&graph, str2);
+    char *str3 = "oui";
+    add_vertex(&graph, str3);
+
+    printf("head is: %s\n ", graph->head->name);
+    printf("%i\n", search_for_vertex(graph, "sad"));
+    printf("%i\n", search_for_vertex(graph, "dsfd"));
+    printf(" head is: %s\n", graph->head->name);
+    print_vertices(graph);
 
 
     return 0;
