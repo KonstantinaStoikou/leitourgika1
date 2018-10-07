@@ -14,6 +14,7 @@ Graph * initialize_graph(void) {
     return graph;
 }
 
+//Add vertex to the start of vertex list: complexity O(1)
 void add_vertex(Graph **graph, char *name) {
     // Allocate memory for node
     Vertex *new_vertex = (Vertex *)malloc(sizeof(Vertex));
@@ -27,14 +28,15 @@ void add_vertex(Graph **graph, char *name) {
     (*graph)->head = new_vertex;
 }
 
+//Add edge to the adjecency list of the vertex given (start_name)
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
     //check if given vertices exists in the graph and create them if they don't
-    Vertex * starting_vertex = search_for_vertex(*graph, start_name);
+    Vertex *starting_vertex = search_for_vertex(*graph, start_name);
     if (starting_vertex == NULL) {
         add_vertex(graph, start_name);
         starting_vertex = (*graph)->head;
     }
-    Vertex * directed_vertex = search_for_vertex(*graph, direction_name);
+    Vertex *directed_vertex = search_for_vertex(*graph, direction_name);
     if (directed_vertex == NULL) {
         printf("in secoin if\n");
         add_vertex(graph, direction_name);
@@ -50,9 +52,9 @@ void add_edge(Graph **graph, char *start_name, char *direction_name, int weight)
 
 //Find if a vertex with the given name exists and return it else return null
 Vertex * search_for_vertex(Graph *graph, char *name) {
-    Vertex * current = graph->head;
+    Vertex *current = graph->head;
 
-    while (current != NULL) {
+    while (current->next != NULL) {
         if (strcmp(current->name, name) == 0) {
             return current;
         }
@@ -62,7 +64,7 @@ Vertex * search_for_vertex(Graph *graph, char *name) {
 }
 
 void print_vertices(Graph *graph) {
-    Vertex * current = graph->head;
+    Vertex *current = graph->head;
 
     while (current != NULL) {
         printf("%s\n", current->name);
@@ -70,6 +72,14 @@ void print_vertices(Graph *graph) {
     }
 }
 
-void print_edges(Graph *graph, char*) {
-    search_for_vertex()
+void print_edges(Graph *graph, char *name) {
+    Vertex *vertex = search_for_vertex(graph, name);
+    Edge *current = vertex->head_edge;
+
+    while (current->next != NULL) {
+        //edo iparxei error giati emfanizei ena weight 0
+        printf("%s %d\n", current->directed_vertex->name, current->weight);
+        printf("%d\n", current->weight);
+        current = current->next;
+    }
 }

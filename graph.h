@@ -14,5 +14,6 @@ void add_vertex(Graph **graph, char *name);
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight);
 Vertex * search_for_vertex(Graph *graph, char *name);
 void print_vertices(Graph *graph);
+void print_edges(Graph *graph, char *name);
 
 #endif
