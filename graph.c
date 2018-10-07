@@ -10,7 +10,6 @@ Graph * initialize_graph(void) {
     graph = malloc(sizeof(Graph));
 
     graph->head = NULL;
-    // graph->head = malloc(sizeof(Vertex));
 
     return graph;
 }
@@ -24,32 +23,9 @@ void add_vertex(Graph **graph, char *name) {
     new_vertex->name  = name;
     new_vertex->next = (*graph)->head;
     new_vertex->head_edge = NULL;
-    // new_vertex->head_edge = malloc(sizeof(Edge));
 
     // Change head pointer as new node is added at the beginning
     (*graph)->head = new_vertex;
-}
-
-
-//Add edge to the adjecency list of the vertex given (start_name)
-void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
-    //check if given vertices exists in the graph and create them if they don't
-    Vertex *starting_vertex = search_for_vertex(*graph, start_name);
-    if (starting_vertex == NULL) {
-        add_vertex(graph, start_name);
-        starting_vertex = (*graph)->head;
-    }
-    Vertex *directed_vertex = search_for_vertex(*graph, direction_name);
-    if (directed_vertex == NULL) {
-        add_vertex(graph, direction_name);
-        directed_vertex = (*graph)->head;
-    }
-
-    Edge *new_edge = (Edge *)malloc(sizeof(Edge));
-    new_edge->weight = weight;
-    new_edge->directed_vertex = directed_vertex;
-    new_edge->next = starting_vertex->head_edge;
-    starting_vertex->head_edge = new_edge;
 }
 
 
@@ -79,6 +55,48 @@ void print_vertices(Graph *graph) {
         printf("%s\n", current->name);
         current = current->next;
     }
+}
+
+
+//Add edge to the adjecency list of the vertex given (start_name)
+void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
+    //check if given vertices exists in the graph and create them if they don't
+    Vertex *starting_vertex = search_for_vertex(*graph, start_name);
+    if (starting_vertex == NULL) {
+        add_vertex(graph, start_name);
+        starting_vertex = (*graph)->head;
+    }
+    Vertex *directed_vertex = search_for_vertex(*graph, direction_name);
+    if (directed_vertex == NULL) {
+        add_vertex(graph, direction_name);
+        directed_vertex = (*graph)->head;
+    }
+
+    Edge *new_edge = (Edge *)malloc(sizeof(Edge));
+    new_edge->weight = weight;
+    new_edge->directed_vertex = directed_vertex;
+    new_edge->next = starting_vertex->head_edge;
+    starting_vertex->head_edge = new_edge;
+}
+
+
+//Find if an edge with the given weight exists in the adjacency list of the
+//given vertex and return it else return null
+Edge * search_for_edge(Graph *graph, char *name, int weight) {
+    //if graph is empty return null
+    if (graph->head == NULL) {
+        return NULL;
+    }
+
+    Vertex *current = graph->head;
+
+    while (current != NULL) {
+        if (strcmp(current->name, name) == 0) {
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;
 }
 
 
