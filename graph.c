@@ -8,7 +8,7 @@ Graph * initialize_graph(void) {
     Graph *graph = NULL;
     graph = malloc(sizeof(Graph));
 
-    // graph->head = NULL;
+    graph->head = NULL;
     // graph->head = malloc(sizeof(Vertex));
 
     return graph;
@@ -29,26 +29,35 @@ void add_vertex(Graph **graph, char *name) {
 
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
     //check if given vertices exists in the graph and create them if they don't
-    if (search_for_vertex(*graph, start_name) == 0) {
+    Vertex * starting_vertex = search_for_vertex(*graph, start_name);
+    if (starting_vertex == NULL) {
         add_vertex(graph, start_name);
+        starting_vertex = (*graph)->head;
     }
-    if (search_for_vertex(*graph, direction_name) == 0) {
+    Vertex * directed_vertex = search_for_vertex(*graph, direction_name);
+    if (directed_vertex == NULL) {
+        printf("in secoin if\n");
         add_vertex(graph, direction_name);
+        directed_vertex = (*graph)->head;
     }
+
+    Edge *new_edge = (Edge *)malloc(sizeof(Edge));
+    new_edge->weight = weight;
+    new_edge->directed_vertex = directed_vertex;
+    new_edge->next = starting_vertex->head_edge;
+    starting_vertex->head_edge = new_edge;
 }
 
-//find if a vertex with the given name exists and return it else return null
+//Find if a vertex with the given name exists and return it else return null
 Vertex * search_for_vertex(Graph *graph, char *name) {
     Vertex * current = graph->head;
 
     while (current != NULL) {
         if (strcmp(current->name, name) == 0) {
-            printf("found\n");
             return current;
         }
         current = current->next;
     }
-    printf("not found\n");
     return NULL;
 }
 
@@ -59,4 +68,8 @@ void print_vertices(Graph *graph) {
         printf("%s\n", current->name);
         current = current->next;
     }
+}
+
+void print_edges(Graph *graph, char*) {
+    search_for_vertex()
 }

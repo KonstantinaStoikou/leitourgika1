@@ -49,6 +49,8 @@ int main(int argc, char const *argv[]) {
     add_vertex(&graph, str3);
 
     printf("head is: %s\n ", graph->head->name);
+    add_edge(&graph, "sad", "sss", 3);
+    add_edge(&graph, "bbb", "aaa", 2);
     print_vertices(graph);
 
 
