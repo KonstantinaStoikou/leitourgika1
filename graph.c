@@ -78,6 +78,16 @@ void add_edge(Graph **graph, char *start_name, char *direction_name, int weight)
     starting_vertex->head_edge = new_edge;
 }
 
+void modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight) {
+    Edge *edge = search_for_edge(graph, start_name, direction_name, weight);
+    if (edge ==NULL) {
+        printf("Given edge could not be found\n");
+        return;
+    }
+
+    edge->weight = new_weight;
+}
+
 
 //Find if an edge with the given weight exists in the adjacency list of the
 //given vertex and return it else return null

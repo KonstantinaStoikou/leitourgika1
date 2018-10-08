@@ -80,7 +80,9 @@ int main(int argc, char const *argv[]) {
     print_edges(graph, "Irene_Weaver");
     printf("ALL VERTICES\n");
     print_vertices(graph);
-    printf("%s\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 596)->directed_vertex->name);
+    printf("%d\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 596)->weight);
+    modify_weight_in_edge(graph, "Irene_Weaver", "Shawn_Ford", 596, 900);
+    printf("%d\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 900)->weight);
     // print_edges(graph, "sad");
     // print_edges(graph, "bbb");
 
