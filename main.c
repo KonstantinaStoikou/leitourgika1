@@ -69,20 +69,27 @@ int main(int argc, char const *argv[]) {
     // printf("head is %s\n", graph->head->name);
     add_edge(&graph, "Marion_Beck", "Jim_Johnston", 95);
     add_edge(&graph, "Irene_Weaver", "Shawn_Ford", 596);
-    add_edge(&graph, "Irene_Weaver", "Shawn_Ford", 598);
-    add_edge(&graph, "Jack_Hawkins", "Shawn_Ford", 368);
+    add_edge(&graph, "Irene_Weaver", "Tom_Casey", 598);
+    add_edge(&graph, "Jack_Hawkins", "Tom_Casey", 368);
     add_edge(&graph, "Jeffery_Walters", "Tom_Casey", 119);
     add_edge(&graph, "Shawn_Ford", "Bernice_Gross", 889);
     add_edge(&graph, "Ola_Rios", "Janie_Warner", 967);
     add_edge(&graph, "Irene_Weaver", "Janie", 568);
+    add_edge(&graph, "Irene_Weaver", "Maria", 668);
     add_edge(&graph, "Leonard_Reeves", "Myra_Burke", 867);
 
     print_edges(graph, "Irene_Weaver");
-    printf("ALL VERTICES\n");
+    printf("\nALL VERTICES\n");
     print_vertices(graph);
-    printf("%d\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 596)->weight);
-    modify_weight_in_edge(graph, "Irene_Weaver", "Shawn_Ford", 596, 900);
-    printf("%d\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 900)->weight);
+    printf("ALL VERTICES\n\n");
+    // printf("%d\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 596)->weight);
+    // modify_weight_in_edge(graph, "Irene_Weaver", "Shawn_Ford", 596, 900);
+    // printf("%d\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 900)->weight);
+    // delete_edge(graph, "Irene_Weaver", "Janie", 568);
+    printf("headdd %s\n", search_for_vertex(graph, "Irene_Weaver")->head_edge->directed_vertex->name);
+    delete_edge(graph, "Irene_Weaver", "Maria", 668);
+    print_edges(graph, "Irene_Weaver");
+    printf("headdd %s\n", search_for_vertex(graph, "Irene_Weaver")->head_edge->directed_vertex->name);
     // print_edges(graph, "sad");
     // print_edges(graph, "bbb");
 

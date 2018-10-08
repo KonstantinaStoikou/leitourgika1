@@ -56,6 +56,51 @@ void print_vertices(Graph *graph) {
     }
 }
 
+void delete_edge(Graph *graph, char *start_name, char *direction_name, int weight) {
+    Vertex *vertex = search_for_vertex(graph, start_name);
+
+    //when edge to be deleted is head edge
+    if(strcmp(vertex->head_edge->directed_vertex->name, direction_name) == 0 && vertex->head_edge->weight == weight) {
+        //if there is only one edge make head_edge in vertex point to null and free edge
+        if(vertex->head_edge->next == NULL) {
+            Edge *edge = vertex->head_edge;
+            vertex->head_edge = NULL;
+            free(edge);
+            return;
+        }
+
+        Edge *edge = vertex->head_edge;
+        vertex->head_edge = vertex->head_edge->next;
+        // Free memory
+        free(edge);
+
+        return;
+    }
+
+    //when not first node, follow the normal deletion process:
+    //find the previous node
+    Edge *prev = vertex->head_edge;
+    while(prev->next != NULL && strcmp(prev->next->directed_vertex->name, direction_name) != 0) {
+        prev = prev->next;
+    }
+
+    Edge *edge = prev->next;        //the edge to be deleted
+    printf("edge is %s\n", edge->directed_vertex->name);
+    printf("previous is %s\n", prev->directed_vertex->name);
+
+    //check if edge really exists in adjacency list (prev->next = given edge)
+    //and if it has the weight given
+    if(prev->next == NULL || prev->next->weight != weight) {
+        printf("Given edge could not be found\n");
+        return;
+    }
+
+    //remove edge from adjacency list and make previous edge point to the next one of the deleted
+    prev->next = edge->next;
+    // Free memory
+    free(edge);
+}
+
 
 //Add edge to the adjecency list of the vertex given (start_name)
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
