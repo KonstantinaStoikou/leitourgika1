@@ -61,7 +61,7 @@ int main(int argc, char const *argv[]) {
     // add_vertex(&graph, str);
     // char *str1 = "happy";
     // add_vertex(&graph, str1);
-    // char *str2 = "sad";
+    // char *strs = "sad";
     // add_vertex(&graph, str2);
     // char *str3 = "oui";
     // add_vertex(&graph, str3);
@@ -80,6 +80,7 @@ int main(int argc, char const *argv[]) {
     print_edges(graph, "Irene_Weaver");
     printf("ALL VERTICES\n");
     print_vertices(graph);
+    printf("%s\n", search_for_edge(graph, "Irene_Weaver", "Shawn_Ford", 596)->directed_vertex->name);
     // print_edges(graph, "sad");
     // print_edges(graph, "bbb");
 

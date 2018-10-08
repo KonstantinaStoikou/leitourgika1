@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "graph.h"
-#include "edge.h"
 
 
 Graph * initialize_graph(void) {
@@ -82,17 +81,20 @@ void add_edge(Graph **graph, char *start_name, char *direction_name, int weight)
 
 //Find if an edge with the given weight exists in the adjacency list of the
 //given vertex and return it else return null
-Edge * search_for_edge(Graph *graph, char *name, int weight) {
-    //if graph is empty return null
-    if (graph->head == NULL) {
+//if multiple edges exists with the same weight and vertices return the first one found
+Edge * search_for_edge(Graph *graph, char *start_name, char *direction_name, int weight) {
+    Vertex *starting_vertex = search_for_vertex(graph, start_name);
+    if (starting_vertex == NULL) {
         return NULL;
     }
 
-    Vertex *current = graph->head;
+    Edge *current = starting_vertex->head_edge;
 
     while (current != NULL) {
-        if (strcmp(current->name, name) == 0) {
-            return current;
+        if (strcmp(current->directed_vertex->name, direction_name) == 0) {
+            if (current->weight == weight) {
+                return current;
+            }
         }
         current = current->next;
     }
