@@ -1,24 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "graph.h"
 
 int main(int argc, char const *argv[]) {
-
-    //check arguments given
-    for (int i = 0; i < argc; i++) {
+    //check arguments given (except argv[0] which is the program name)
+    for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-i") == 0) {
+            printf("%s\n", argv[i+1]);
             FILE *ifile;
             char *line = NULL;
             size_t len = 0;
 
             //open file that comes right after "-i" in the command line arguments
-            ifile = fopen(argv[i + i], "r");
-            // ifile = fopen("InputFile-Small.csv", "r");
-            printf("%s\n", argv[i+1]);
+            ifile = fopen(argv[i + 1], "r");
 
             if (ifile == NULL) {
-                printf("%s\n", "an input file \n");
+                printf("%s\n", "Input file could ot be opened \n");
                 exit(EXIT_FAILURE);
             }
 
@@ -34,8 +31,6 @@ int main(int argc, char const *argv[]) {
         }
 
     }
-
-
 
     return 0;
 

@@ -18,7 +18,7 @@ Graph * initialize_graph(void) {
 void add_vertex(Graph **graph, char *name) {
     // Allocate memory for node
     Vertex *new_vertex = (Vertex *)malloc(sizeof(Vertex));
-
+    printf("name is %s\n", name);
     new_vertex->name  = name;
     new_vertex->next = (*graph)->head;
     new_vertex->head_edge = NULL;
@@ -55,6 +55,7 @@ void print_vertices(Graph *graph) {
         current = current->next;
     }
 }
+
 
 void delete_edge(Graph *graph, char *start_name, char *direction_name, int weight) {
     Vertex *vertex = search_for_vertex(graph, start_name);
@@ -99,6 +100,12 @@ void delete_edge(Graph *graph, char *start_name, char *direction_name, int weigh
     prev->next = edge->next;
     // Free memory
     free(edge);
+}
+
+
+//Delete all edges between given vertices
+void delete_edges(Graph *graph, char *start_name, char *direction_name) {
+
 }
 
 

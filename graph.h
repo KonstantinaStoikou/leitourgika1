@@ -18,8 +18,7 @@ void modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name,
 Edge * search_for_edge(Graph *graph, char *start_name, char *direction_name, int weight);
 void print_edges(Graph *graph, char *name);
 void delete_edge(Graph *graph, char *start_name, char *direction_name, int weight);
-void delete_edges();
+void delete_edges(Graph *graph, char *start_name, char *direction_name);
 //delete vertex(graph, vertex name)
-//delete edge(graph, vertex name, directed vertex name, weight)
 
 #endif
