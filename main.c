@@ -23,11 +23,7 @@ int main(int argc, char const *argv[]) {
         execute_prompt(prompt, &graph);
     } while(strcmp(prompt, "e") != 0);
 
-    printf("\nALL VERTICES\n");
-    print_vertices(graph);
-    printf("ALL VERTICES\n\n");
-
-
+    write_output_file();
 
     return 0;
 }
