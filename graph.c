@@ -18,8 +18,10 @@ Graph * initialize_graph(void) {
 void add_vertex(Graph **graph, char *name) {
     // Allocate memory for node
     Vertex *new_vertex = (Vertex *)malloc(sizeof(Vertex));
-    printf("name is %s\n", name);
-    new_vertex->name  = name;
+
+    new_vertex->name = malloc(sizeof(name));
+    strcpy(new_vertex->name, name);
+    
     new_vertex->next = (*graph)->head;
     new_vertex->head_edge = NULL;
 
