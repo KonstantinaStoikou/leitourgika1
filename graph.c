@@ -59,12 +59,13 @@ void print_vertices(Graph *graph) {
 }
 
 
+//Delete edge between two given vertices with certain weight
 void delete_edge(Graph *graph, char *start_name, char *direction_name, int weight) {
     Vertex *vertex = search_for_vertex(graph, start_name);
 
     //when edge to be deleted is head edge
     if(strcmp(vertex->head_edge->directed_vertex->name, direction_name) == 0 && vertex->head_edge->weight == weight) {
-        //if there is only one edge make head_edge in vertex point to null and free edge
+        //if there is only one edge in the list make head_edge in vertex point to null and free edge
         if(vertex->head_edge->next == NULL) {
             Edge *edge = vertex->head_edge;
             vertex->head_edge = NULL;
@@ -74,7 +75,6 @@ void delete_edge(Graph *graph, char *start_name, char *direction_name, int weigh
 
         Edge *edge = vertex->head_edge;
         vertex->head_edge = vertex->head_edge->next;
-        // Free memory
         free(edge);
 
         return;
@@ -88,8 +88,6 @@ void delete_edge(Graph *graph, char *start_name, char *direction_name, int weigh
     }
 
     Edge *edge = prev->next;        //the edge to be deleted
-    printf("edge is %s\n", edge->directed_vertex->name);
-    printf("previous is %s\n", prev->directed_vertex->name);
 
     //check if edge really exists in adjacency list (prev->next = given edge)
     //and if it has the weight given
@@ -100,14 +98,49 @@ void delete_edge(Graph *graph, char *start_name, char *direction_name, int weigh
 
     //remove edge from adjacency list and make previous edge point to the next one of the deleted
     prev->next = edge->next;
-    // Free memory
     free(edge);
 }
 
 
-//Delete all edges between given vertices
+//Delete all edges between two given vertices
 void delete_edges(Graph *graph, char *start_name, char *direction_name) {
+    Vertex *vertex = search_for_vertex(graph, start_name);
+    printf("%s\n", start_name);
+    printf("%s\n", vertex->name);
+    Edge *prev = vertex->head_edge;
+    printf("hii\n");
 
+    while (prev->next != NULL) {
+        printf("hii\n");
+        //when one of the edges to be deleted is head edge
+        if(strcmp(vertex->head_edge->directed_vertex->name, direction_name) == 0) {
+            //if there is only one edge make head_edge in vertex point to null and free edge
+            if(vertex->head_edge->next == NULL) {
+                Edge *edge = vertex->head_edge;
+                vertex->head_edge = NULL;
+                free(edge);
+                return;     //since list is empty
+            } else {
+                Edge *edge = vertex->head_edge;
+                vertex->head_edge = vertex->head_edge->next;
+                free(edge);
+            }
+        //when not first node, follow the normal deletion process:
+        } else {
+            printf("hii\n");
+            //find the previous node
+            if (strcmp(prev->next->directed_vertex->name, direction_name) == 0) {
+                Edge *edge = prev->next;        //the edge to be deleted
+                printf("hii\n");
+                //remove edge from adjacency list and make previous edge point to the next one of the deleted
+                prev->next = edge->next;
+                // Free memory
+                free(edge);
+            }
+
+            prev = prev->next;
+        }
+    }
 }
 
 
@@ -175,10 +208,6 @@ void print_edges(Graph *graph, char *name) {
         current = current->next;
     }
 }
-
-
-
-
 
 
 void print_to_file(Graph *graph, FILE *ofile) {

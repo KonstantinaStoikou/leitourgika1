@@ -85,12 +85,12 @@ void execute_prompt(char *prompt, Graph **graph) {
         //d(elete) Ni
         /* code */
     } else if (strcmp(words[0], "l") == 0) {
-        //delete Ni Nj weight
+        //(de)l(ete) Ni Nj weight
         //check if weight has been given as input
-        if (words[3] == NULL) {
-            //delete_edge
+        if (words[3] != NULL) {
+            delete_edge(*graph, words[1], words[2], atoi(words[3]));
         } else {
-            //delete_edges
+            delete_edges(*graph, words[1], words[2]);
         }
     } else if (strcmp(words[0], "m") == 0) {
         //m(odify) Ni Nj weight nweight
@@ -109,7 +109,6 @@ void execute_prompt(char *prompt, Graph **graph) {
         /* code */
     } else if (strcmp(words[0], "e") == 0) {
         //e(xit)
-        //do nothing
     //EXTRA PROMPTS FOR DEBUGGING:
     } else if (strcmp(words[0], "pe") == 0) {
         //print edges: pe Ni
