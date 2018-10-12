@@ -192,7 +192,7 @@ void print_to_file(Graph *graph, FILE *ofile) {
             fprintf(ofile, "\t-%d -> |%s|\n", cur_edge->weight, cur_edge->directed_vertex->name);
             cur_edge= cur_edge->next;
         }
-
+        fprintf(ofile, "\n");
         cur_vertex = cur_vertex->next;
     }
 

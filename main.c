@@ -25,5 +25,7 @@ int main(int argc, char const *argv[]) {
 
     write_output_file(argc, argv, graph);
 
+    //na diagrafo kai na kano free oles tis domes
+
     return 0;
 }
