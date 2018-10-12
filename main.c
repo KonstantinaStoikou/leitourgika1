@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]) {
         execute_prompt(prompt, &graph);
     } while(strcmp(prompt, "e") != 0);
 
-    write_output_file();
+    write_output_file(argc, argv, graph);
 
     return 0;
 }

@@ -21,4 +21,6 @@ void delete_edge(Graph *graph, char *start_name, char *direction_name, int weigh
 void delete_edges(Graph *graph, char *start_name, char *direction_name);
 //delete vertex(graph, vertex name)
 
+void print_to_file(Graph *graph, FILE *ofile);
+
 #endif

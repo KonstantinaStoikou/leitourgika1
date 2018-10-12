@@ -18,7 +18,7 @@ void read_input_file(int argc, char const *argv[], Graph **graph) {
             ifile = fopen(argv[i + 1], "r");
 
             if (ifile == NULL) {
-                printf("%s\n", "Input file could not be opened \n");
+                printf("Input file could not be opened \n");
                 exit(EXIT_FAILURE);
             }
 
@@ -49,8 +49,18 @@ void read_input_file(int argc, char const *argv[], Graph **graph) {
 
 //Functions that checks if flag "-o" was given as input and if yes then writes
 //to the given file the final state of the graph (when user exits the program)
-void write_output_file() {
+void write_output_file(int argc, char const *argv[], Graph *graph) {
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-o") == 0) {
+            FILE *ofile = fopen(argv[i + 1], "w");
+            if (ofile == NULL) {
+                printf("Output file could not be opened \n");
+                exit(EXIT_FAILURE);
+            }
 
+            print_to_file(graph, ofile);
+        }
+    }
 }
 
 

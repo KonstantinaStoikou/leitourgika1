@@ -21,7 +21,7 @@ void add_vertex(Graph **graph, char *name) {
 
     new_vertex->name = malloc(sizeof(name));
     strcpy(new_vertex->name, name);
-    
+
     new_vertex->next = (*graph)->head;
     new_vertex->head_edge = NULL;
 
@@ -174,4 +174,27 @@ void print_edges(Graph *graph, char *name) {
         printf("%s %d\n", current->directed_vertex->name, current->weight);
         current = current->next;
     }
+}
+
+
+
+
+
+
+void print_to_file(Graph *graph, FILE *ofile) {
+    Vertex *cur_vertex = graph->head;
+
+    while (cur_vertex != NULL) {
+        fprintf(ofile, "|%s|\n", cur_vertex->name);
+
+        Edge *cur_edge = cur_vertex->head_edge;
+        while (cur_edge != NULL) {
+            fprintf(ofile, "\t-%d -> |%s|\n", cur_edge->weight, cur_edge->directed_vertex->name);
+            cur_edge= cur_edge->next;
+        }
+
+        cur_vertex = cur_vertex->next;
+    }
+
+
 }
