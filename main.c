@@ -11,10 +11,15 @@ int main(int argc, char const *argv[]) {
     read_input_file(argc, argv, &graph);
 
     //ask for user input until user enters "exit"
-    char prompt[50];
+    char prompt[100];
     do {
+        //empty prompt array before asking for new user input
+        memset(prompt, 0, 100);
         printf("Please enter a command: ");
-        scanf ("%s", prompt);
+        fgets(prompt, 100, stdin);
+        //remove newline character from prompt string
+        prompt[strcspn(prompt, "\r\n")] = 0;
+        //call function to execute prompts given on the graph
         execute_prompt(prompt, &graph);
     } while(strcmp(prompt, "e") != 0);
 
@@ -25,6 +30,4 @@ int main(int argc, char const *argv[]) {
 
 
     return 0;
-
-
 }

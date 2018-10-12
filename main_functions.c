@@ -54,11 +54,13 @@ void execute_prompt(char *prompt, Graph **graph) {
     char *word = strtok(prompt, " ");  //split prompt by spaces
     while (word) {
         words[count] = word;
+        printf("in while %s\n", word);
         count++;
         word = strtok(NULL, " ");
     }
     //provlima me tin word1
     printf("word 0 is %s\n", words[0]);
+    printf("word 1 is %s\n", words[1]);
 
     if (strcmp(words[0], "i") == 0) {
         add_vertex(graph, words[1]);
@@ -83,5 +85,5 @@ void execute_prompt(char *prompt, Graph **graph) {
     } else {
         printf("There is no such command\n");
     }
-
+    printf("\n\n");
 }
