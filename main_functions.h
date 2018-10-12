@@ -4,5 +4,6 @@
 #include "graph.h"
 
 void read_input_file(int argc, char const *argv[], Graph **graph);
+void execute_prompt(char *prompt, Graph **graph);
 
 #endif
