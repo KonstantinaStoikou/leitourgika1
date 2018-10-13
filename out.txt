@@ -1,3 +1,12 @@
+|dfg|
+
+|sdffsd|
+
+|roulis|
+
+|tina|
+	-69 -> |roulis|
+
 |Hulda_Zimmerman|
 	-627 -> |Irene_Weaver|
 	-849 -> |Ola_Rios|
@@ -6,6 +15,8 @@
 |Lina_Bennett|
 
 |Alvin_Perkins|
+	-779 -> |Marcus_Duncan|
+	-755 -> |Marcus_Duncan|
 	-859 -> |Ola_Rios|
 
 |Todd_Park|
@@ -30,6 +41,8 @@
 |Myra_Burke|
 	-123 -> |Jim_Johnston|
 	-340 -> |Jeffery_Walters|
+	-589 -> |Ola_Rios|
+	-13 -> |Ola_Rios|
 
 |Leonard_Reeves|
 	-113 -> |Dean_Fields|
@@ -38,6 +51,7 @@
 |Janie_Warner|
 
 |Ola_Rios|
+	-103 -> |Leonard_Reeves|
 	-967 -> |Janie_Warner|
 
 |Bernice_Gross|
@@ -59,7 +73,9 @@
 	-241 -> |Todd_Park|
 	-713 -> |Lina_Bennett|
 	-2 -> |Ola_Rios|
+	-701 -> |Bernice_Gross|
 	-100 -> |Emilie_Horton|
+	-889 -> |Bernice_Gross|
 
 |Irene_Weaver|
 	-596 -> |Shawn_Ford|

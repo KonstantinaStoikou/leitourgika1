@@ -19,7 +19,7 @@ void add_vertex(Graph **graph, char *name) {
     // Allocate memory for node
     Vertex *new_vertex = (Vertex *)malloc(sizeof(Vertex));
 
-    new_vertex->name = malloc(sizeof(name));
+    new_vertex->name = malloc(strlen(name)+1);
     strcpy(new_vertex->name, name);
 
     new_vertex->next = (*graph)->head;
@@ -162,6 +162,7 @@ void add_edge(Graph **graph, char *start_name, char *direction_name, int weight)
     starting_vertex->head_edge = new_edge;
 }
 
+
 void modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight) {
     Edge *edge = search_for_edge(graph, start_name, direction_name, weight);
     if (edge ==NULL) {
@@ -221,6 +222,29 @@ void print_to_file(Graph *graph, FILE *ofile) {
         fprintf(ofile, "\n");
         cur_vertex = cur_vertex->next;
     }
+}
 
 
+//Delete all edges and vertices and free allocated memory
+void release_memory(Graph **graph) {
+    Vertex* cur_vertex = (*graph)->head;
+    Vertex* next_vertex;
+
+    while (cur_vertex != NULL) {
+       next_vertex = cur_vertex->next;
+
+       Edge *cur_edge = cur_vertex->head_edge;
+       Edge *next_edge;
+       while (cur_edge != NULL) {
+           next_edge = cur_edge->next;
+           free(cur_edge);
+           cur_edge = next_edge;
+       }
+
+       free(cur_vertex->name);
+       free(cur_vertex);
+       cur_vertex = next_vertex;
+    }
+
+    free(*graph);
 }

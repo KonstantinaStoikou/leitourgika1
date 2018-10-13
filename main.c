@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
     do {
         //empty prompt array before asking for new user input
         memset(prompt, 0, 100);
-        
+
         printf("Please enter a command: ");
         fgets(prompt, 100, stdin);
         //remove newline character from prompt string
@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
 
     write_output_file(argc, argv, graph);
 
-    //na diagrafo kai na kano free oles tis domes
+    release_memory(&graph);
 
     return 0;
 }
