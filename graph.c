@@ -106,7 +106,7 @@ void delete_edge(Graph *graph, char *start_name, char *direction_name, int weigh
 //Delete all edges between two given vertices
 void delete_edges(Graph *graph, char *start_name, char *direction_name) {
     Vertex *vertex = search_for_vertex(graph, start_name);
-    
+
     Edge *prev = vertex->head_edge;
 
     while (prev->next != NULL) {
@@ -117,7 +117,7 @@ void delete_edges(Graph *graph, char *start_name, char *direction_name) {
                 Edge *edge = vertex->head_edge;
                 vertex->head_edge = NULL;
                 free(edge);
-                return;     //since list is empty
+                return;     //stop because list is empty
             } else {
                 Edge *edge = vertex->head_edge;
                 vertex->head_edge = vertex->head_edge->next;
@@ -133,8 +133,9 @@ void delete_edges(Graph *graph, char *start_name, char *direction_name) {
                 // Free memory
                 free(edge);
             }
-
-            prev = prev->next;
+            else {
+                prev = prev->next;
+            }
         }
     }
 }
