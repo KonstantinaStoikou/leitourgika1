@@ -83,7 +83,7 @@ void execute_prompt(char *prompt, Graph **graph) {
         add_edge(graph, words[1], words[2], atoi(words[3]));
     } else if (strcmp(words[0], "d") == 0) {
         //d(elete) Ni
-        /* code */
+        delete_vertex(graph, words[1]);
     } else if (strcmp(words[0], "l") == 0) {
         //(de)l(ete) Ni Nj weight
         //check if weight has been given as input

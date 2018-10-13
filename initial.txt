@@ -6,6 +6,8 @@
 |Lina_Bennett|
 
 |Alvin_Perkins|
+	-779 -> |Marcus_Duncan|
+	-755 -> |Marcus_Duncan|
 	-859 -> |Ola_Rios|
 
 |Todd_Park|

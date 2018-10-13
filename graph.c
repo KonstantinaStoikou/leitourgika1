@@ -4,6 +4,7 @@
 #include "graph.h"
 
 
+//Allocate memory for graph struct
 Graph * initialize_graph(void) {
     Graph *graph = NULL;
     graph = malloc(sizeof(Graph));
@@ -49,6 +50,7 @@ Vertex * search_for_vertex(Graph *graph, char *name) {
 }
 
 
+//Print all vertices
 void print_vertices(Graph *graph) {
     Vertex *current = graph->head;
 
@@ -59,7 +61,75 @@ void print_vertices(Graph *graph) {
 }
 
 
-//Delete edge between two given vertices with certain weight
+//Delete given vertex and all edges starting from and directed to this vertex
+void delete_vertex(Graph **graph, char *name) {
+    Vertex *vertex = search_for_vertex(*graph, name);
+
+    //firstly delete all edges directed to given vertex
+    Vertex *cur_vertex = (*graph)->head;
+
+    while (cur_vertex != NULL) {
+        delete_edges_without_search(*graph, &cur_vertex, name);
+        cur_vertex = cur_vertex->next;
+    }
+
+    //then delete all edges starting from given vertex
+    Edge *cur_edge = vertex->head_edge;
+    Edge *next_edge;
+    while (cur_edge != NULL) {
+        next_edge = cur_edge->next;
+        free(cur_edge);
+        cur_edge = next_edge;
+    }
+
+    vertex->head_edge = NULL;
+
+    //finally delete the vertex
+    //when vertex to be deleted is the head vertex
+    if(strcmp((*graph)->head->name, name) == 0) {
+        //if there is only one vertex in the graph make graph head point to null and free vertex
+        if((*graph)->head->next == NULL) {
+            Vertex *v = (*graph)->head;
+            (*graph)->head = NULL;
+            free(v->name);
+            free(v);
+            return;
+        }
+
+        Vertex *v = (*graph)->head;
+        (*graph)->head = v->next;
+        free(v->name);
+        free(v);
+
+        return;
+    }
+
+    //when not head vertex, follow the normal deletion process:
+    //find the previous node
+    Vertex *prev = (*graph)->head;
+    while(prev->next != NULL) {
+        if (strcmp(prev->next->name, name) == 0) {
+            break;
+        }
+        prev = prev->next;
+    }
+
+    Vertex *v = prev->next;        //the vertex to be deleted
+    //check if vertex really exists in graph (because prev pointer might have reached end of list)
+    if(prev->next == NULL) {
+        printf("Given vertex could not be found\n");
+        return;
+    }
+
+    //remove vertex from graph and make previous vertex point to the next one of the deleted
+    prev->next = v->next;
+    free(v->name);
+    free(v);
+
+}
+
+
+//Delete edge between one given vertex towards another given vertex with certain weight
 void delete_edge(Graph *graph, char *start_name, char *direction_name, int weight) {
     Vertex *vertex = search_for_vertex(graph, start_name);
 
@@ -103,26 +173,39 @@ void delete_edge(Graph *graph, char *start_name, char *direction_name, int weigh
 }
 
 
-//Delete all edges between two given vertices
+//Delete all edges between one given vertex towards another given vertex
 void delete_edges(Graph *graph, char *start_name, char *direction_name) {
     Vertex *vertex = search_for_vertex(graph, start_name);
 
-    Edge *prev = vertex->head_edge;
+    delete_edges_without_search(graph, &vertex, direction_name);
+}
+
+
+//Delete edges between a given vertex towards another
+//it does not require a search by name for the starting vertex because it is already passed as struct Vertex
+void delete_edges_without_search(Graph *graph, Vertex **vertex, char *direction_name) {
+    Vertex *vptr = *vertex;
+    //if there are no edges stop
+    if (vptr->head_edge == NULL) {
+        return;
+    }
+
+    //if the edge to be deleted is the only one edge in the list make head_edge in vertex point to null and free edge
+    if(vptr->head_edge->next == NULL && strcmp(vptr->head_edge->directed_vertex->name, direction_name) == 0) {
+        Edge *edge = vptr->head_edge;
+        (*vertex)->head_edge = NULL;
+        free(edge);
+        return;     //stop because list is empty
+    }
+
+    Edge *prev = vptr->head_edge;
 
     while (prev->next != NULL) {
         //when one of the edges to be deleted is head edge
-        if(strcmp(vertex->head_edge->directed_vertex->name, direction_name) == 0) {
-            //if there is only one edge make head_edge in vertex point to null and free edge
-            if(vertex->head_edge->next == NULL) {
-                Edge *edge = vertex->head_edge;
-                vertex->head_edge = NULL;
-                free(edge);
-                return;     //stop because list is empty
-            } else {
-                Edge *edge = vertex->head_edge;
-                vertex->head_edge = vertex->head_edge->next;
-                free(edge);
-            }
+        if(strcmp(vptr->head_edge->directed_vertex->name, direction_name) == 0) {
+            Edge *edge = vptr->head_edge;
+            (*vertex)->head_edge = vptr->head_edge->next;
+            free(edge);
         //when not first node, follow the normal deletion process:
         } else {
             //find the previous node
@@ -141,7 +224,7 @@ void delete_edges(Graph *graph, char *start_name, char *direction_name) {
 }
 
 
-//Add edge to the adjecency list of the vertex given (start_name)
+//Add edge to the adjacency list of the given vertex towards another given vertex
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
     //check if given vertices exists in the graph and create them if they don't
     Vertex *starting_vertex = search_for_vertex(*graph, start_name);
@@ -163,6 +246,7 @@ void add_edge(Graph **graph, char *start_name, char *direction_name, int weight)
 }
 
 
+//Modify weight in an edge between a given vertex towards another given vertex
 void modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight) {
     Edge *edge = search_for_edge(graph, start_name, direction_name, weight);
     if (edge ==NULL) {
@@ -197,6 +281,7 @@ Edge * search_for_edge(Graph *graph, char *start_name, char *direction_name, int
 }
 
 
+//Print all edges starting from a given vertex
 void print_edges(Graph *graph, char *name) {
     Vertex *vertex = search_for_vertex(graph, name);
     Edge *current = vertex->head_edge;
@@ -208,6 +293,7 @@ void print_edges(Graph *graph, char *name) {
 }
 
 
+//Print all vertices and edges of the given graph to an opened file
 void print_to_file(Graph *graph, FILE *ofile) {
     Vertex *cur_vertex = graph->head;
 
