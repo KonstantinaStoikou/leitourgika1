@@ -59,6 +59,9 @@ void write_output_file(int argc, char const *argv[], Graph *graph) {
             }
 
             print_to_file(graph, ofile);
+
+            fclose(ofile);
+            ofile = NULL;
         }
     }
 }
@@ -154,7 +157,7 @@ void execute_prompt(char *prompt, Graph **graph) {
     }
     //e(xit)
     else if (strcmp(words[0], "e") == 0) {
-        //do nothing
+        printf("- exit program\n");
     }
     //EXTRA PROMPTS FOR DEBUGGING:
     //print edges: pe Ni

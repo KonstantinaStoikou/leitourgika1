@@ -1,5 +1,3 @@
-|tina|
-
 |Hulda_Zimmerman|
 	-627->|Irene_Weaver|
 	-849->|Ola_Rios|
