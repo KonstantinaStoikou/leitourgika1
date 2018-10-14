@@ -4,7 +4,7 @@
 #include "main_functions.h"
 
 
-//Functions that checks if flag "-i" was given as input and if yes then reads
+//Function that checks if flag "-i" was given as input and if yes then reads
 //the given file line by line and adds the vertices and edges given on the file
 void read_input_file(int argc, char const *argv[], Graph **graph) {
     for (int i = 1; i < argc; i++) {
@@ -47,7 +47,7 @@ void read_input_file(int argc, char const *argv[], Graph **graph) {
 }
 
 
-//Functions that checks if flag "-o" was given as input and if yes then writes
+//Function that checks if flag "-o" was given as input and if yes then writes
 //to the given file the final state of the graph (when user exits the program)
 void write_output_file(int argc, char const *argv[], Graph *graph) {
     for (int i = 1; i < argc; i++) {
@@ -64,6 +64,8 @@ void write_output_file(int argc, char const *argv[], Graph *graph) {
 }
 
 
+//Function that calls graph functions based on input prompt and print success
+//or failure messages
 void execute_prompt(char *prompt, Graph **graph) {
     //break prompt into words
     char *words[5];         //maximum number of words for a prompt is 5
@@ -75,48 +77,95 @@ void execute_prompt(char *prompt, Graph **graph) {
         word = strtok(NULL, " ");
     }
 
+    //i(nsert) Ni
     if (strcmp(words[0], "i") == 0) {
-        //i(nsert) Ni
-        add_vertex(graph, words[1]);
-    } else if (strcmp(words[0], "n") == 0) {
-        //(i)n(sert) Ni Nj weight
+        if (add_vertex(graph, words[1]) == 0) {
+            printf("- Inserted |%s|\n", words[1]);
+        } else {
+            printf("- Node |%s| exists\n", words[1]);
+        }
+    }
+    //(i)n(sert) Ni Nj weight
+    else if (strcmp(words[0], "n") == 0) {
         add_edge(graph, words[1], words[2], atoi(words[3]));
-    } else if (strcmp(words[0], "d") == 0) {
-        //d(elete) Ni
-        delete_vertex(graph, words[1]);
-    } else if (strcmp(words[0], "l") == 0) {
-        //(de)l(ete) Ni Nj weight
+        printf("- Inserted |%s|->%s->|%s|\n", words[1], words[3], words[2]);
+    }
+    //d(elete) Ni
+    else if (strcmp(words[0], "d") == 0) {
+        if (delete_vertex(graph, words[1]) == 0) {
+            printf("- Deleted |%s|\n", words[1]);
+        } else {
+            printf("- Node |%s| does not exist - abort-d;\n", words[1]);
+        }
+    }
+    //(de)l(ete) Ni Nj weight
+    else if (strcmp(words[0], "l") == 0) {
         //check if weight has been given as input
         if (words[3] != NULL) {
-            delete_edge(*graph, words[1], words[2], atoi(words[3]));
+            int error = delete_edge(*graph, words[1], words[2], atoi(words[3]));
+            if (error == 1) {
+                printf("- |%s| does not exist - abort-l;\n", words[1]);
+            } else if (error == 2) {
+                printf("- |%s| does not exist - abort-l;\n", words[2]);
+            } else if (error == 3) {
+                printf("- |%s|->%s->|%s| does not exist - abort-l;\n", words[1], words[3], words[2]);
+            } else {
+                printf("- Del-vertex |%s|->%s->|%s|\n", words[1], words[3], words[2]);
+            }
         } else {
-            delete_edges(*graph, words[1], words[2]);
+            int error = delete_edges(*graph, words[1], words[2]);
+            if (error == 1) {
+                printf("- |%s| does not exist - abort-l;\n", words[1]);
+            } else if (error == 2) {
+                printf("- |%s| does not exist - abort-l;\n", words[3]);
+            } else {
+                printf("- Del-vertices |%s|->|%s|\n", words[1], words[2]);
+            }
         }
-    } else if (strcmp(words[0], "m") == 0) {
-        //m(odify) Ni Nj weight nweight
-        modify_weight_in_edge(*graph, words[1], words[2], atoi(words[3]), atoi(words[4]));
-    } else if (strcmp(words[0], "r") == 0) {
-        //r(eceiving) Ni
+    }
+    //m(odify) Ni Nj weight nweight
+    else if (strcmp(words[0], "m") == 0) {
+        int error = modify_weight_in_edge(*graph, words[1], words[2], atoi(words[3]), atoi(words[4]));
+        if (error == 1) {
+            printf("- |%s| does not exist - abort-m;\n", words[1]);
+        } else if (error == 2) {
+            printf("- |%s| does not exist - abort-m;\n", words[3]);
+        } else if (error == 3) {
+            printf("- |%s|->%s->|%s| does not exist - abort-m;\n", words[1], words[3], words[2]);
+        } else {
+            printf("- Mod-vertex |%s|->%s->|%s|\n", words[1], words[4], words[2]);
+        }
+    }
+    //r(eceiving) Ni
+    else if (strcmp(words[0], "r") == 0) {
         /* code */
-    } else if (strcmp(words[0], "c") == 0) {
-        //c(irclefind) Ni
+    }
+    //c(irclefind) Ni
+    else if (strcmp(words[0], "c") == 0) {
         /* code */
-    } else if (strcmp(words[0], "f") == 0) {
-        //f(indcircles) Ni k
+    }
+    //f(indcircles) Ni k
+    else if (strcmp(words[0], "f") == 0) {
         /* code */
-    } else if (strcmp(words[0], "t") == 0) {
-        //t(raceflow) Ni Nj l
+    }
+    //t(raceflow) Ni Nj l
+    else if (strcmp(words[0], "t") == 0) {
         /* code */
-    } else if (strcmp(words[0], "e") == 0) {
-        //e(xit)
+    }
+    //e(xit)
+    else if (strcmp(words[0], "e") == 0) {
+        //do nothing
+    }
     //EXTRA PROMPTS FOR DEBUGGING:
-    } else if (strcmp(words[0], "pe") == 0) {
-        //print edges: pe Ni
+    //print edges: pe Ni
+    else if (strcmp(words[0], "pe") == 0) {
         print_edges(*graph, words[1]);
-    } else if (strcmp(words[0], "pv") == 0) {
-        //print vertices: pv
+    }
+    //print vertices: pv
+    else if (strcmp(words[0], "pv") == 0) {
         print_vertices(*graph);
-    } else {
+    }
+    else {
         printf("There is no such command\n");
     }
 
