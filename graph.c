@@ -138,6 +138,119 @@ int delete_vertex(Graph **graph, char *name) {
 }
 
 
+//Print edges that are directed at the given vertex
+int print_receiving(Graph *graph, char *name) {
+    //check if given vertex exists
+    if (search_for_vertex(graph, name) == NULL) {
+        return 1;
+    }
+
+    Vertex *cur_vertex = graph->head;
+    int flag = 0;   //flag will be set to 1 if at least one edge is printed
+
+    while (cur_vertex != NULL) {
+        Edge *cur_edge = cur_vertex->head_edge;
+
+        while (cur_edge != NULL) {
+            if (strcmp(cur_edge->directed_vertex->name, name) == 0) {
+                //the message "- Rec-edges" will be printed only the first time a receiving edge is found
+                if (flag == 0) {
+                    printf("- Rec-edges\n");
+                    flag = 1;
+                }
+                printf("\t|%s|->%d->|%s|\n", cur_vertex->name, cur_edge->weight, name);
+            }
+            cur_edge = cur_edge->next;
+        }
+        cur_vertex = cur_vertex->next;
+    }
+    //if no edge was printed, print a message
+    if (flag == 0) {
+        printf("- No-rec-edges %s\n", name);
+    }
+
+    return 0;
+}
+
+
+//Add edge to the adjacency list of the given vertex towards another given vertex
+void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
+    //check if given vertices exists in the graph and create them if they don't
+    Vertex *starting_vertex = search_for_vertex(*graph, start_name);
+    if (starting_vertex == NULL) {
+        add_vertex(graph, start_name);
+        starting_vertex = (*graph)->head;
+    }
+    Vertex *directed_vertex = search_for_vertex(*graph, direction_name);
+    if (directed_vertex == NULL) {
+        add_vertex(graph, direction_name);
+        directed_vertex = (*graph)->head;
+    }
+
+    Edge *new_edge = (Edge *)malloc(sizeof(Edge));
+    new_edge->weight = weight;
+    new_edge->directed_vertex = directed_vertex;
+    new_edge->next = starting_vertex->head_edge;
+    starting_vertex->head_edge = new_edge;
+}
+
+
+//Modify weight in an edge between a given vertex towards another given vertex
+int modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight) {
+    int error;
+    Edge *edge = search_for_edge(graph, start_name, direction_name, weight, &error);
+    if (edge == NULL) {
+        return error;
+    }
+
+    edge->weight = new_weight;
+    return 0;
+}
+
+
+//Find if an edge with the given weight exists in the adjacency list of the
+//given vertex and return it else return null
+//if multiple edges exists with the same weight and vertices return the first one found
+Edge * search_for_edge(Graph *graph, char *start_name, char *direction_name, int weight, int *error) {
+    Vertex *starting_vertex = search_for_vertex(graph, start_name);
+    //check if start vertex exists
+    if (starting_vertex == NULL) {
+        *error = 1;
+        return NULL;
+    }
+    //check if direction vertex exists
+    if (search_for_vertex(graph, direction_name) == NULL) {
+        *error = 2;
+        return NULL;
+    }
+
+    Edge *current = starting_vertex->head_edge;
+
+    while (current != NULL) {
+        if (strcmp(current->directed_vertex->name, direction_name) == 0) {
+            if (current->weight == weight) {
+                return current;
+            }
+        }
+        current = current->next;
+    }
+    *error = 3;
+    return NULL;
+}
+
+
+//Print all edges starting from a given vertex
+void print_edges(Graph *graph, char *name) {
+    Vertex *vertex = search_for_vertex(graph, name);
+    Edge *current = vertex->head_edge;
+
+    while (current != NULL) {
+        printf("%s %d\n", current->directed_vertex->name, current->weight);
+        current = current->next;
+    }
+}
+
+
 //Delete edge between one given vertex towards another given vertex with certain weight
 int delete_edge(Graph *graph, char *start_name, char *direction_name, int weight) {
     Vertex *vertex = search_for_vertex(graph, start_name);
@@ -248,84 +361,6 @@ void delete_edges_without_search(Graph *graph, Vertex **vertex, char *direction_
                 prev = prev->next;
             }
         }
-    }
-}
-
-
-//Add edge to the adjacency list of the given vertex towards another given vertex
-void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
-    //check if given vertices exists in the graph and create them if they don't
-    Vertex *starting_vertex = search_for_vertex(*graph, start_name);
-    if (starting_vertex == NULL) {
-        add_vertex(graph, start_name);
-        starting_vertex = (*graph)->head;
-    }
-    Vertex *directed_vertex = search_for_vertex(*graph, direction_name);
-    if (directed_vertex == NULL) {
-        add_vertex(graph, direction_name);
-        directed_vertex = (*graph)->head;
-    }
-
-    Edge *new_edge = (Edge *)malloc(sizeof(Edge));
-    new_edge->weight = weight;
-    new_edge->directed_vertex = directed_vertex;
-    new_edge->next = starting_vertex->head_edge;
-    starting_vertex->head_edge = new_edge;
-}
-
-
-//Modify weight in an edge between a given vertex towards another given vertex
-int modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight) {
-    int error;
-    Edge *edge = search_for_edge(graph, start_name, direction_name, weight, &error);
-    if (edge == NULL) {
-        return error;
-    }
-
-    edge->weight = new_weight;
-    return 0;
-}
-
-
-//Find if an edge with the given weight exists in the adjacency list of the
-//given vertex and return it else return null
-//if multiple edges exists with the same weight and vertices return the first one found
-Edge * search_for_edge(Graph *graph, char *start_name, char *direction_name, int weight, int *error) {
-    Vertex *starting_vertex = search_for_vertex(graph, start_name);
-    //check if start vertex exists
-    if (starting_vertex == NULL) {
-        *error = 1;
-        return NULL;
-    }
-    //check if direction vertex exists
-    if (search_for_vertex(graph, direction_name) == NULL) {
-        *error = 2;
-        return NULL;
-    }
-
-    Edge *current = starting_vertex->head_edge;
-
-    while (current != NULL) {
-        if (strcmp(current->directed_vertex->name, direction_name) == 0) {
-            if (current->weight == weight) {
-                return current;
-            }
-        }
-        current = current->next;
-    }
-    *error = 3;
-    return NULL;
-}
-
-
-//Print all edges starting from a given vertex
-void print_edges(Graph *graph, char *name) {
-    Vertex *vertex = search_for_vertex(graph, name);
-    Edge *current = vertex->head_edge;
-
-    while (current != NULL) {
-        printf("%s %d\n", current->directed_vertex->name, current->weight);
-        current = current->next;
     }
 }
 

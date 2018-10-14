@@ -141,7 +141,9 @@ void execute_prompt(char *prompt, Graph **graph) {
     }
     //r(eceiving) Ni
     else if (strcmp(words[0], "r") == 0) {
-        /* code */
+        if (print_receiving(*graph, words[1]) == 1) {
+            printf("- |%s| does not exist - abort-r;\n", words[1]);
+        }
     }
     //c(irclefind) Ni
     else if (strcmp(words[0], "c") == 0) {
