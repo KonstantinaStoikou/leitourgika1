@@ -173,6 +173,11 @@ int print_receiving(Graph *graph, char *name) {
 }
 
 
+int print_simple_circles(Graph *graph, char *name) {
+    
+}
+
+
 //Add edge to the adjacency list of the given vertex towards another given vertex
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight) {
     //check if given vertices exists in the graph and create them if they don't

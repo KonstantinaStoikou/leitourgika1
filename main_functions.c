@@ -147,7 +147,9 @@ void execute_prompt(char *prompt, Graph **graph) {
     }
     //c(irclefind) Ni
     else if (strcmp(words[0], "c") == 0) {
-        /* code */
+        if (print_simple_circles(*graph, words[1]) == 1) {
+            printf("- |%s| does not exist - abort-c;\n", words[1]);
+        }
     }
     //f(indcircles) Ni k
     else if (strcmp(words[0], "f") == 0) {

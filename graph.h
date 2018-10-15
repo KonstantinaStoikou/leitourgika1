@@ -16,6 +16,7 @@ Vertex * search_for_vertex(Graph *graph, char *name);
 void print_vertices(Graph *graph);
 int delete_vertex(Graph **graph, char *name);
 int print_receiving(Graph *graph, char *name);
+int print_simple_circles(Graph *graph, char *name);
 
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight);
 int modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight);
