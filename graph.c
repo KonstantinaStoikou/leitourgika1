@@ -20,6 +20,11 @@ int add_vertex(Graph **graph, char *name) {
     if (search_for_vertex(*graph, name) != NULL) {
         return 1;
     }
+
+    //a static variable that is incremented by 1 everytime a new vertex is add_edge
+    //and it is used as an id for each added vertex
+    static int id_counter = 0;
+
     // Allocate memory for node
     Vertex *new_vertex = (Vertex *)malloc(sizeof(Vertex));
 
@@ -28,6 +33,10 @@ int add_vertex(Graph **graph, char *name) {
 
     new_vertex->next = (*graph)->head;
     new_vertex->head_edge = NULL;
+    new_vertex->id = id_counter;
+
+    //increase id counter by 1 to use as id for the next inserted node
+    id_counter++;
 
     // Change head pointer as new node is added at the beginning
     (*graph)->head = new_vertex;
@@ -135,6 +144,8 @@ int delete_vertex(Graph **graph, char *name) {
     free(v->name);
     free(v);
 
+    return 0;
+
 }
 
 
@@ -174,7 +185,13 @@ int print_receiving(Graph *graph, char *name) {
 
 
 int print_simple_circles(Graph *graph, char *name) {
-    
+    Vertex *vertex = search_for_vertex(graph, name);
+
+    if (vertex == NULL) {
+        return 1;
+    }
+
+    return 0;
 }
 
 
