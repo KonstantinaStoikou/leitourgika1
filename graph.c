@@ -10,6 +10,10 @@ Graph * initialize_graph(void) {
 
     graph->head = NULL;
 
+    //last_id is a graph member that is incremented by 1 everytime a new vertex is add_edge
+    //and it is used as an id for each added vertex (ids start from 0)
+    graph->last_id = 0;
+
     return graph;
 }
 
@@ -21,10 +25,6 @@ int add_vertex(Graph **graph, char *name) {
         return 1;
     }
 
-    //a static variable that is incremented by 1 everytime a new vertex is add_edge
-    //and it is used as an id for each added vertex
-    static int id_counter = 0;
-
     // Allocate memory for node
     Vertex *new_vertex = (Vertex *)malloc(sizeof(Vertex));
 
@@ -33,10 +33,10 @@ int add_vertex(Graph **graph, char *name) {
 
     new_vertex->next = (*graph)->head;
     new_vertex->head_edge = NULL;
-    new_vertex->id = id_counter;
+    new_vertex->id = (*graph)->last_id;
 
-    //increase id counter by 1 to use as id for the next inserted node
-    id_counter++;
+    //increase last_id by 1 to use as id for the next inserted node
+    (*graph)->last_id++;
 
     // Change head pointer as new node is added at the beginning
     (*graph)->head = new_vertex;
@@ -187,11 +187,86 @@ int print_receiving(Graph *graph, char *name) {
 int print_simple_circles(Graph *graph, char *name) {
     Vertex *vertex = search_for_vertex(graph, name);
 
+    //check if given vertex exists
     if (vertex == NULL) {
         return 1;
     }
 
+    //create an array with the size of the graph until this moment (the last_id
+    //of graph shows the number of vertices in the graph) and use it to indicate
+    //which vertex has been visited while make Depth-First Search
+    int *visited = (int*) malloc((graph->last_id) * sizeof(int));
+    //initialize array to 0 (because none of the vertices has been visited yet)
+    for (int i = 0; i < graph->last_id; i++) {
+        visited[i] = 0;
+    }
+
+    char *results = malloc(strlen("\n") + 1);
+    snprintf(results, strlen("\n") + 1 , "\n");   //3 extra bytes because 2 for '|..|' and 1 for '/0'
+    DFS(graph, vertex, &visited, &results);
+    printf("RESULTS ARE %s\n", results);
+
     return 0;
+}
+
+
+int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results) {
+    Vertex *cur_vertex = vertex;
+    printf("dfs was called for vertex: %s\n", cur_vertex->name);
+    Edge *cur_edge = cur_vertex->head_edge;
+    //mark as visited the vertex that is currently being searched
+    (*visited)[cur_vertex->id] = 1;
+    //flag that shows if a circle has been found
+    int flag = 0;
+
+    while (cur_edge != NULL) {
+        Vertex *directed_vertex = cur_edge->directed_vertex;
+
+        if ((*visited)[cur_edge->directed_vertex->id] == 0) {
+            printf("calling DFS from vertex: %s\n", cur_vertex->name );
+            if (DFS(graph, directed_vertex, visited, results) == 1) {
+                printf("is 111\n");
+                char *temp = malloc(strlen(*results)+1);
+                strcpy(temp, *results);
+                //realloc memory for results that is the same as before but expanded by the edge's weight and direction name length
+                int length = strlen(*results) + sizeof(cur_edge->weight) + strlen(directed_vertex->name) + 3;
+                *results = realloc(*results, length);
+                snprintf(*results, length, "->%d->|%s|", cur_edge->weight, directed_vertex->name);
+                strcat(*results, temp);
+                printf("%s\n", *results);
+                printf("\n");
+                free(temp);
+                flag = 1;
+            }
+        } else if (strcmp(cur_edge->directed_vertex->name, "nbc") == 0) {
+            printf("Reached %s\n", directed_vertex->name );
+            //copy results string to temp because i want to concat vertices' names at the start of results string
+            char *temp = malloc(strlen(*results)+1);
+            strcpy(temp, *results);
+            //realloc memory for results that is the same as before but expanded by the edge's weight and direction name length
+            int length = strlen(*results) + sizeof(cur_edge->weight) + strlen(directed_vertex->name) + 3;
+            *results = realloc(*results, length);
+            snprintf(*results, length, "->%d->|%s|", cur_edge->weight, directed_vertex->name);
+            strcat(*results, temp);
+            printf("%s\n", *results);
+            printf("\n");
+            free(temp);
+            //since a circle has been found reinitiaze visited array to 0
+            for (int i = 0; i < graph->last_id; i++) {
+                (*visited)[i] = 0;
+            }
+            //mark as visited vertex that was initially passed
+            (*visited)[1] = 1;
+            //return 1 means the recursion reaches initial vertex -> a circle was found
+            flag = 1;
+        }
+
+        cur_edge = cur_edge->next;
+    }
+    printf("out of while\n" );
+    if (flag == 1) {
+        return 1;
+    }
 }
 
 

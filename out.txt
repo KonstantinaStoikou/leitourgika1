@@ -1,82 +1,52 @@
-|tina|
+|aic|
+	-340->|cbw|
 
-|Hulda_Zimmerman|
-	-627->|Irene_Weaver|
-	-849->|Ola_Rios|
-	-489->|Myra_Burke|
+|jkl|
 
-|Lina_Bennett|
+|edi|
+	-389->|zdr|
 
-|Alvin_Perkins|
-	-779->|Marcus_Duncan|
-	-755->|Marcus_Duncan|
-	-859->|Ola_Rios|
+|cbw|
+	-560->|nbc|
 
-|Todd_Park|
-	-869->|Leonard_Reeves|
-	-706->|Dean_Fields|
-	-125->|Janie_Warner|
+|zdr|
+	-560->|bfi|
 
-|Josie_Burke|
-	-514->|Jack_Hawkins|
+|uyt|
+	-600->|zdr|
 
-|Dean_Fields|
-	-916->|Josie_Burke|
+|bfi|
+	-780->|tdk|
+	-540->|vdf|
 
-|Emilie_Horton|
-	-137->|Tom_Casey|
+|kfc|
+	-500->|vdf|
+	-560->|tdk|
 
-|Marcus_Duncan|
-	-623->|Myra_Burke|
-	-838->|Alvin_Perkins|
-	-389->|Ola_Rios|
+|vdf|
+	-1234->|uyt|
+	-2300->|uyt|
+	-1200->|kji|
 
-|Myra_Burke|
-	-123->|Jim_Johnston|
-	-340->|Jeffery_Walters|
-	-589->|Ola_Rios|
-	-13->|Ola_Rios|
+|tsi|
+	-450->|utf|
 
-|Leonard_Reeves|
-	-113->|Dean_Fields|
-	-867->|Myra_Burke|
+|tdk|
+	-980->|edi|
 
-|Janie_Warner|
+|kji|
+	-600->|kfc|
+	-1340->|kfc|
+	-2200->|vdf|
+	-300->|tdk|
 
-|Ola_Rios|
-	-103->|Leonard_Reeves|
-	-967->|Janie_Warner|
+|nbc|
+	-450->|cbw|
+	-5000->|tsi|
+	-1234->|jkl|
 
-|Bernice_Gross|
-
-|Tom_Casey|
-	-543->|Myra_Burke|
-
-|Jeffery_Walters|
-	-119->|Tom_Casey|
-
-|Jack_Hawkins|
-	-102->|Josie_Burke|
-	-368->|Shawn_Ford|
-
-|Shawn_Ford|
-	-341->|Alvin_Perkins|
-	-29->|Josie_Burke|
-	-27->|Leonard_Reeves|
-	-241->|Todd_Park|
-	-713->|Lina_Bennett|
-	-2->|Ola_Rios|
-	-701->|Bernice_Gross|
-	-100->|Emilie_Horton|
-	-889->|Bernice_Gross|
-
-|Irene_Weaver|
-	-596->|Shawn_Ford|
-
-|Jim_Johnston|
-	-759->|Myra_Burke|
-	-945->|Leonard_Reeves|
-
-|Marion_Beck|
-	-95->|Jim_Johnston|
+|utf|
+	-1200->|aic|
+	-1300->|jkl|
+	-34->|nbc|
 

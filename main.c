@@ -4,7 +4,6 @@
 #include "main_functions.h"
 
 int main(int argc, char const *argv[]) {
-
     Graph *graph = initialize_graph();
 
     //read input file if given and insert new vertices and edges

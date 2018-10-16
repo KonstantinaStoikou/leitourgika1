@@ -7,6 +7,7 @@
 //Graph is actually a pointer that points to head of vertex list
 typedef struct Graph {
     Vertex * head;
+    int last_id;
 } Graph;
 
 Graph * initialize_graph(void);
@@ -17,6 +18,7 @@ void print_vertices(Graph *graph);
 int delete_vertex(Graph **graph, char *name);
 int print_receiving(Graph *graph, char *name);
 int print_simple_circles(Graph *graph, char *name);
+int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results);
 
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight);
 int modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight);
