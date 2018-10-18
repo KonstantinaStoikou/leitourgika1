@@ -213,36 +213,38 @@ int print_simple_circles(Graph *graph, char *name) {
 
 
 int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int initial_id) {
-    printf("searching in %s\n", vertex->name);
+    // printf("searching in %s\n", vertex->name);
     Vertex *cur_vertex = vertex;
     Edge *cur_edge = cur_vertex->head_edge;
     //mark as visited the vertex that is currently being searched
     (*visited)[cur_vertex->id] = 1;
     int flag = 0;
+    int already_named = 0;
 
     //while there are still edges to iterate in this vertex's adjacency list
     while (cur_edge != NULL) {
-        printf("searching edge %s %d\n", cur_edge->directed_vertex->name, cur_edge->weight);
+        // printf("searching edge %s %d\n", cur_edge->directed_vertex->name, cur_edge->weight);
         //if the current edge is pointing to a vertex that hasnt been visited call DFS for this vertex
         if ((*visited)[cur_edge->directed_vertex->id] == 0) {
-            if (cur_edge == vertex->head_edge) {
-                printf("in if first time\n");
+            if (already_named == 0) {
+                already_named = 1;
+                // printf("in if first time\n");
                 *results = realloc(*results, strlen(*results) + strlen(cur_vertex->name) + 2);
                 strcat(*results, "->");
                 strcat(*results, cur_vertex->name);
             }
 
-            printf("results is %s\n", *results);
+            // printf("results is %s\n", *results);
 
             char *temp = malloc(strlen(*results) + 1);
             strcpy(temp, *results);
-            printf("temp is %s\n", temp);
+            // printf("temp is %s\n", temp);
             DFS(graph, cur_edge->directed_vertex, visited, &temp, initial_id);
             // if (DFS(graph, cur_edge->directed_vertex, visited, &temp, initial_id) == 1) {
-                printf("hiii\n");
+                // printf("hiii\n");
                 // *results = realloc(*results, sizeof(char));
                 // *results[0] = '\0';
-                printf("after dfs temp is %s\n", temp);
+                // printf("after dfs temp is %s\n", temp);
             // }
 
         }
@@ -272,7 +274,7 @@ int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int 
     (*visited)[cur_vertex->id] = 0;
     *results = realloc(*results, sizeof(char));
     *results[0] = '\0';
-    printf("out of %s\n", vertex->name);
+    // printf("out of %s\n", vertex->name);
     return flag;
 }
 
