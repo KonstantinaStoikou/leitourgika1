@@ -201,10 +201,10 @@ int print_simple_circles(Graph *graph, char *name) {
         visited[i] = 0;
     }
 
-    char *results = malloc(strlen(vertex->name));
-    strcpy(results, vertex->name);
+    char *circles = malloc(strlen(vertex->name));
+    strcpy(circles, vertex->name);
     printf("%d\n", vertex->id);
-    DFS(graph, vertex, &visited, &results, vertex->id);
+    DFS(graph, vertex, &visited, &circles, vertex->id);
     // printf("RESULTS ARE %s\n", results);
 
     return 0;
@@ -212,7 +212,7 @@ int print_simple_circles(Graph *graph, char *name) {
 
 
 int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int initial_id) {
-    // printf("DFS is called for vertex: %s\n", vertex->name);
+
     Vertex *cur_vertex = vertex;
     Edge *cur_edge = cur_vertex->head_edge;
     //mark as visited the vertex that is currently being searched
@@ -226,32 +226,17 @@ int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int 
 
         //if the current edge is pointing to a vertex that hasnt been visited call DFS for this vertex
         if ((*visited)[cur_edge->directed_vertex->id] == 0) {
-            printf("%d\n", initial_id);
-            *results = realloc(*results, strlen(*results) + strlen(cur_edge->directed_vertex->name) + 2);
-            strcat(*results, ",");
-            strcat(*results, cur_edge->directed_vertex->name);
-
-            char *temp = malloc(strlen(*results));
-            strcpy(temp, *results);
-            printf("temp is : %s\n", temp);
-            DFS(graph, directed_vertex, visited, &temp, initial_id);
+            printf("%s\n", cur_edge->directed_vertex->name);
+            DFS(graph, directed_vertex, visited, results, initial_id);
 
         }
         //if this edge is pointing to the initial vertex a circle has happened
         else if (cur_edge->directed_vertex->id == initial_id) {
             printf("Reached a circle\n");
-            *results = realloc(*results, strlen(*results) + strlen(cur_edge->directed_vertex->name) + 2);
-            strcat(*results, ",");
-            strcat(*results, cur_edge->directed_vertex->name);
-            printf("%s\n", *results);
-            printf("current vertex %s\n", cur_vertex->name);
-            printf("directed vertex %s\n", cur_edge->directed_vertex->name);
-            *results = realloc(*results, strlen("nbc") + 1);
-            strcpy(*results, "nbc");
             //since a circle has been found reinitiaze visited array to 0
-            for (int i = 0; i < graph->last_id; i++) {
+            /*for (int i = 0; i < graph->last_id; i++) {
                 (*visited)[i] = 0;
-            }
+            } */
             //mark as visited the vertex that was initially passed
             (*visited)[initial_id] = 1;
 
@@ -259,6 +244,8 @@ int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int 
         //move to next edge
         cur_edge = cur_edge->next;
     }
+    //when the vertex that is currently being searched has no other edges to call dfs mark it as unvisited
+    (*visited)[cur_vertex->id] = 0;
 
 }
 
