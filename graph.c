@@ -202,51 +202,34 @@ int print_simple_circles(Graph *graph, char *name) {
     }
 
     char *circles = malloc(sizeof(char));
-    // char *circles = malloc(strlen(vertex->name) + 1);
     circles[0] = '\0';
-    // strcpy(circles, vertex->name);
     DFS(graph, vertex, &visited, &circles, vertex->id);
-    // printf("RESULTS ARE %s\n", results);
 
     return 0;
 }
 
 
 int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int initial_id) {
-    // printf("searching in %s\n", vertex->name);
     Vertex *cur_vertex = vertex;
     Edge *cur_edge = cur_vertex->head_edge;
     //mark as visited the vertex that is currently being searched
     (*visited)[cur_vertex->id] = 1;
-    int flag = 0;
     int already_named = 0;
 
     //while there are still edges to iterate in this vertex's adjacency list
     while (cur_edge != NULL) {
-        // printf("searching edge %s %d\n", cur_edge->directed_vertex->name, cur_edge->weight);
         //if the current edge is pointing to a vertex that hasnt been visited call DFS for this vertex
         if ((*visited)[cur_edge->directed_vertex->id] == 0) {
             if (already_named == 0) {
                 already_named = 1;
-                // printf("in if first time\n");
                 *results = realloc(*results, strlen(*results) + strlen(cur_vertex->name) + 2);
                 strcat(*results, "->");
                 strcat(*results, cur_vertex->name);
             }
 
-            // printf("results is %s\n", *results);
-
             char *temp = malloc(strlen(*results) + 1);
             strcpy(temp, *results);
-            // printf("temp is %s\n", temp);
             DFS(graph, cur_edge->directed_vertex, visited, &temp, initial_id);
-            // if (DFS(graph, cur_edge->directed_vertex, visited, &temp, initial_id) == 1) {
-                // printf("hiii\n");
-                // *results = realloc(*results, sizeof(char));
-                // *results[0] = '\0';
-                // printf("after dfs temp is %s\n", temp);
-            // }
-
         }
         //if this edge is pointing to the initial vertex a circle has happened
         else if (cur_edge->directed_vertex->id == initial_id) {
@@ -254,15 +237,9 @@ int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int 
                 *results = realloc(*results, strlen(*results) + strlen(cur_vertex->name) + 2);
                 strcat(*results, "->");
                 strcat(*results, cur_vertex->name);
-            } //else {
-            //     *results = realloc(*results, strlen(*results) + strlen(cur_edge->directed_vertex->name) + 2);
-            //     strcat(*results, "->");
-            //     strcat(*results, cur_edge->directed_vertex->name);
-            // }
+            }
 
             printf("Reached a circle: %s->%s\n", *results, cur_edge->directed_vertex->name);
-
-            flag = 1;
             //mark as visited the vertex that was initially passed
             (*visited)[initial_id] = 1;
 
@@ -274,8 +251,6 @@ int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int 
     (*visited)[cur_vertex->id] = 0;
     *results = realloc(*results, sizeof(char));
     *results[0] = '\0';
-    // printf("out of %s\n", vertex->name);
-    return flag;
 }
 
 
