@@ -18,7 +18,7 @@ void print_vertices(Graph *graph);
 int delete_vertex(Graph **graph, char *name);
 int print_receiving(Graph *graph, char *name);
 int print_simple_circles(Graph *graph, char *name);
-int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int initial_id);
+void DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int initial_id);
 
 void add_edge(Graph **graph, char *start_name, char *direction_name, int weight);
 int modify_weight_in_edge(Graph *graph, char *start_name, char *direction_name, int weight, int new_weight);

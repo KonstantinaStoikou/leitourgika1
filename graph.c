@@ -203,6 +203,7 @@ int print_simple_circles(Graph *graph, char *name) {
 
     char *circles = malloc(sizeof(char));
     circles[0] = '\0';
+    printf("- Cir found\n");
     DFS(graph, vertex, &visited, &circles, vertex->id);
     free(circles);
     free(visited);
@@ -210,71 +211,82 @@ int print_simple_circles(Graph *graph, char *name) {
 }
 
 
-//Recursive Depth-First Search that finds and prints simple circles in graph
-int DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int initial_id) {
+//Recursive Depth-First Search that finds and prints simple circles in graph.
+//vertex is each vertex we conduct a DFS for, visited is the array that shows if a
+//vertex has been visited during DFS, results is the string that is manipulated
+//and finally printed if there is a circle and initial_id id the id of the vertex
+//who called DFS first (and whose circles are being searched
+void DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int initial_id) {
     Vertex *cur_vertex = vertex;
     Edge *cur_edge = cur_vertex->head_edge;
     //mark as visited the vertex that is currently being searched
     (*visited)[cur_vertex->id] = 1;
-    int already_named = 0;
+    //variable that indicates if a vertex has already been printed (because a circle might have already passed through this vertex)
+    int already_printed = 0;
 
     //while there are still edges to iterate in this vertex's adjacency list
     while (cur_edge != NULL) {
         //if the current edge is pointing to a vertex that hasnt been visited call DFS for this vertex
         if ((*visited)[cur_edge->directed_vertex->id] == 0) {
-            if (already_named == 0) {
-                already_named = 1;
-               *results = realloc(*results, strlen(*results) + strlen(cur_vertex->name) + 5);
+            //add this vertex's name to the results string if it hasn't been added before (while iterating its edges)
+            if (already_printed == 0) {
+                //change already_printed to 1 which means that this vertex will be passed in the results string
+                already_printed = 1;
 
+                //expand results string to add current vertex's name and output format symbols
+               *results = realloc(*results, strlen(*results) + strlen(cur_vertex->name) + 5);
                 strcat(*results, "->");
                 strcat(*results, "|");
                 strcat(*results, cur_vertex->name);
                 strcat(*results, "|");
-
             }
+            //create a string to store weight as string
+            //for convinience purposes length 5 is considered enough to store a string number
             char buf[5];
             sprintf(buf, "%d", cur_edge->weight);
-
+            //store weight to a temp string along with results because weight should be deleted for each edge that we iterate
+            //1 for '\0', 5 for weight and 2 for '->'
             char *temp = malloc(strlen(*results) + 1 + 5 + 2);
-            temp[0] = '\0';
+            temp[0] = '\0';         //initialize temp
             strcat(temp, *results);
             strcat(temp, "->");
             strcat(temp, buf);
 
+            //call DFS for this edge's vertex and pass temp to string that will be used as results for the recursive call
             DFS(graph, cur_edge->directed_vertex, visited, &temp, initial_id);
+            //free temp because we no longer need it. If there was a circle during dfs
+            //recursive call, temp will have been used to print the circle
             free(temp);
         }
         //if this edge is pointing to the initial vertex a circle has happened
         else if (cur_edge->directed_vertex->id == initial_id) {
+            //if this is the first edge iterated for this vertex add this vertex's name in the results string (because it hasn't been added before)
             if (cur_edge == vertex->head_edge) {
-                // *results = realloc(*results, strlen(*results) + strlen(cur_vertex->name) + 2);
-                // strcat(*results, "->");
-                // strcat(*results, cur_vertex->name);
                 *results = realloc(*results, strlen(*results) + strlen(cur_vertex->name) + 5);
                 strcat(*results, "->");
                 strcat(*results, "|");
                 strcat(*results, cur_vertex->name);
                 strcat(*results, "|");
-
             }
-            *results = realloc(*results, strlen(*results) + 5 + 2 + 1);
+            //create a string to store weight as string
             char buf[5];
             sprintf(buf, "%d", cur_edge->weight);
+            //store weight to a temp string along with results because weight should be deleted for each edge that we iterate
             char *temp = malloc(strlen(*results) + 1 + 5 + 2);
             temp[0] = '\0';
             strcat(temp, *results);
             strcat(temp, "->");
             strcat(temp, buf);
-
-            printf("Reached a circle: %s->|%s|\n", temp, cur_edge->directed_vertex->name);
-            //mark as visited the vertex that was initially passed
+            //print results string followed by the last vertex's (which is actually the vertex's name that initially called DFS)
+            printf("\t%s->|%s|\n", temp, cur_edge->directed_vertex->name);
+            //mark as visited the vertex that whose id was initially passed (the one who initially called DFS)
             (*visited)[initial_id] = 1;
 
         }
         //move to next edge
         cur_edge = cur_edge->next;
     }
-    //when the vertex that is currently being searched has no other edges to call dfs mark it as unvisited
+    //when the vertex that is currently being searched has no other edges to call dfs, mark it as unvisited
     (*visited)[cur_vertex->id] = 0;
     //empty results string
     *results = realloc(*results, sizeof(char));
