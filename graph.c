@@ -281,7 +281,7 @@ void DFS(struct Graph* graph, Vertex *vertex, int **visited, char **results, int
             printf("\t%s->|%s|\n", temp, cur_edge->directed_vertex->name);
             //mark as visited the vertex that whose id was initially passed (the one who initially called DFS)
             (*visited)[initial_id] = 1;
-
+            free(temp);
         }
         //move to next edge
         cur_edge = cur_edge->next;
