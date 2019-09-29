@@ -5,51 +5,80 @@ The vertices represent the bank accounts and the edges the transactions.
 Bank accounts (vertices) have an id (incremented by 1) and name. <br>
 Transactions (edges) have a weight which is the amount of money transferred and a pointer to the receiver's vertex. 
 ## Input ##
-User can give input as a command line argument (not mandatory). <br>
+User can give input as a command line argument(not mandatory) with flag -i. <br> 
 In this case the graph will be initialized with the accounts and transactions stated in the file. <br>
 Some sample input files are in test_data folder. 
 ```
-$ ./mygraph test_data/InputFile-Medium.csv
+./mygraph -i test_data/InputFile-Medium.csv
 ```
 Main function always asks for a user command from the following list of possible commands: <br>
-* Insert new bank account with name Ni to graph.
+* i Ni : Insert new bank account with name Ni to graph.
 ```
-$ i Ni
+Please enter a command: i Marcus_Duncan
+- Inserted |Marcus_Duncan|
 ```
-* Insert new transaction between bank accounts with names Ni,Nj to graph (bank accounts can already exist or not).
+* n Ni Nj weight : Insert new transaction between bank accounts with names Ni,Nj to graph (bank accounts can already exist or not).
 ```
-$ n Ni Nj weight
+Please enter a command: n Leonard_Reeves Shawn_Ford 54
+- Inserted |Leonard_Reeves|->54->|Shawn_Ford|
 ```
-* Delete bank account with name Ni from graph along with all its transactions (delete all edges pointing to this bank account or linked to this bank account).
+* d Ni : Delete bank account with name Ni from graph along with all its transactions (delete all edges pointing to this bank account or linked to this bank account).
 ```
-$ d Ni
+Please enter a command: d Tom_Casey
+- Deleted |Tom_Casey|
 ```
-* Delete all transactions (edges) between accounts Ni,Nj with the specified weight. If weight is not given then delete all transactions between these two accounts.
+* l Ni,Nj (weight) : Delete all transactions (edges) between accounts Ni,Nj with the specified weight. If weight is not given then delete all transactions between these two accounts.
 ```
-$ l Ni,Nj (weight)
+Please enter a command: l Alvin_Perkins Marcus_Duncan 779
+- Del-vertex |Alvin_Perkins|->779->|Marcus_Duncan|
 ```
-* Modify the weight in transaction between accounts Ni,Nj with specified weight to nweight. If more than one such transaction, modify the first to come across.
+* m Ni Nj weight nweight : Modify the weight in transaction between accounts Ni,Nj with specified weight to nweight. If more than one such transaction, modify the first to come across.
 ```
-$ m Ni Nj weight nweight
+Please enter a command: m Tom_Casey Myra_Burke 543 400
+- Mod-vertex |Tom_Casey|->400->|Myra_Burke|
 ```
-* Print all transactions that account Ni is the receiver.
+* r Ni :  Print all transactions that account Ni is the receiver.
 ```
-$ r Ni
+Please enter a command: r Myra_Burke
+- Rec-edges
+        |Hulda_Zimmerman|->489->|Myra_Burke|
+        |Marcus_Duncan|->623->|Myra_Burke|
+        |Leonard_Reeves|->867->|Myra_Burke|
+        |Tom_Casey|->543->|Myra_Burke|
+        |Jim_Johnston|->759->|Myra_Burke|
 ```
-* Print all simple circles of account Ni if they exist. 
+* c Ni : Print all simple circles of account Ni if they exist. 
 ```
-$ c Ni
+Please enter a command: c Jim_Johnston
+- Cir found
+        ->|Jim_Johnston|->759->|Myra_Burke|->123->|Jim_Johnston|
+        ->|Jim_Johnston|->945->|Leonard_Reeves|->113->|Dean_Fields|->916->|Josie_Burke|->514->|Jack_Hawkins|->368->|Shawn_Ford|->341->|Alvin_Perkins|->779->|Marcus_Duncan|->623->|Myra_Burke|->123->|Jim_Johnston|
+        ->|Jim_Johnston|->945->|Leonard_Reeves|->113->|Dean_Fields|->916->|Josie_Burke|->514->|Jack_Hawkins|->368->|Shawn_Ford|->341->|Alvin_Perkins|->755->|Marcus_Duncan|->623->|Myra_Burke|->123->|Jim_Johnston|
+        ->|Jim_Johnston|->945->|Leonard_Reeves|->113->|Dean_Fields|->916->|Josie_Burke|->514->|Jack_Hawkins|->368->|Shawn_Ford|->100->|Emilie_Horton|->137->|Tom_Casey|->543->|Myra_Burke|->123->|Jim_Johnston|
+        ->|Jim_Johnston|->945->|Leonard_Reeves|->867->|Myra_Burke|->123->|Jim_Johnston|
 ```
-* Print all edges (transactions) of account Ni.
+* pe Ni : Print all edges (transactions) of account Ni.
 ```
-$ pe Ni
+Please enter a command: pe Alvin_Perkins 
+Marcus_Duncan 779
+Marcus_Duncan 755
+Ola_Rios 859
 ```
-* Print all vertices (accounts) of graph.
+* pv : Print all vertices (accounts) of graph.
 ```
-$ pv
+Please enter a command: pv
+Hulda_Zimmerman
+Lina_Bennett
+Alvin_Perkins
+Todd_Park
+Josie_Burke
+Dean_Fields
+Emilie_Horton
+Marcus_Duncan
 ```
-* Exit program after freeing allocated memory.
+* e : Exit program after freeing allocated memory.
 ```
-$ e
+Please enter a command: e
+- exit program
 ```
 
